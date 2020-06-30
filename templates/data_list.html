@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% block content_header %}
+<h2> List of Data </h2>
+
+<p>
+  <a href="{% url 'upload_txt_data' %}" class="btn btn-primary">Upload data</a>
+</p>
+{% endblock %}
+
+<table class='table'>
+  <thread>
+    <tr>
+      <th> Title </th>
+      <th> Description </th>
+      <th> Download </th>
+      <th> Delete </th>
+      <th> Run Animation </th>
+    </tr>
+  </thread>
+
+  <tbody>
+    {% for data in datas %}
+    <tr>
+      <td> {{data.title}} </td>
+      <td> {{data.description}} </td>
+      <td>
+        <a href="{{data.txt.url}}" class="btn btn-primary btn-sm" target="_blank">
+          Download txt
+        </a>
+      </td>
+      <td>
+       <form method="post" action="{% url 'delete_data' data.pk%}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+        </form>
+      </td>
+      
+      <td>
+       <form method="post" action="{% url 'run_animation' data.pk%}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm">Run Animation</button>
+        </form>
+      </td>
+      
+    </tr>
+    {% endfor %}
+
+  </tbody>
+
+</table>
+
+
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% block content_header %}
+<h2> {{data.title}} </h2>
+<div> {{data.description}} </div>
+
+{% endblock %}
+
+<tbody>
+
+  <!--
+
+  <iframe src="" width="700" height="300" name="iframe_animation">
+    
+  </iframe>
+
+  <p>
+    <a href={{data.txt.url}} class="btn btn-primary btn-sm" target="iframe_animation">
+      Show Data 
+    </a>
+  </p>
+-->
+
+  <div>
+    {% for line in lines %}
+    <p>
+      {{line}}
+    </p>
+    {% endfor %}
+  </div>
+
+<!--
+    
+<table>
+    <tr>
+      <td>Text to Save:</td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        <textarea id="inputTextToSave" cols="80" rows="25">
+          {{data.txt}}
+          </textarea>
+      </td>
+    </tr>
+    <tr>
+      <td>Filename to Save As:</td>
+      <td><input id="inputFileNameToSaveAs"></input></td>
+      <td><button onclick="saveTextAsFile()">Save Text to File</button></td>
+    </tr>
+    <tr>
+      <td>Select a File to Load:</td>
+      <td><input type="file" id="fileToLoad"></td>
+      <td><button onclick="loadFileAsText()">Load Selected File</button>
+      <td>
+    </tr>
+  </table>
+
+  <script type="text/javascript">
+
+    function saveTextAsFile() {
+      var textToSave = document.getElementById("inputTextToSave").value;
+      var textToSaveAsBlob = new Blob([textToSave], { type: "text/plain" });
+      var textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
+      var fileNameToSaveAs = document.getElementById("inputFileNameToSaveAs").value;
+
+      var downloadLink = document.createElement("a");
+      downloadLink.download = fileNameToSaveAs;
+      downloadLink.innerHTML = "Download File";
+      downloadLink.href = textToSaveAsURL;
+      downloadLink.onclick = destroyClickedElement;
+      downloadLink.style.display = "none";
+      document.body.appendChild(downloadLink);
+
+      downloadLink.click();
+    }
+
+    function destroyClickedElement(event) {
+      document.body.removeChild(event.target);
+    }
+
+    function loadFileAsText() {
+      var fileToLoad = document.getElementById("fileToLoad").files[0];
+
+      var fileReader = new FileReader();
+      fileReader.onload = function (fileLoadedEvent) {
+        var textFromFileLoaded = fileLoadedEvent.target.result;
+        document.getElementById("inputTextToSave").value = textFromFileLoaded;
+      };
+      fileReader.readAsText(fileToLoad, "UTF-8");
+    }
+
+  </script>
+
+  -->
+
+  <table class='table'>
+    <thread>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thread>
+
+    <tr>
+      <td>
+        <a href="{{data_out}}" class="btn btn-primary btn-sm" target="_blank">
+          Show data_out
+        </a>
+      </td>
+      <td>
+        <form method="post" action="{% url 'animation_vpython' data.pk%}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm btn-primary">VPython Animation</button>
+        </form>
+      </td>
+      <td>
+        <form method="post" action="{% url 'animation_matplotlib' data.pk%}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm btn-primary">Matplotlib Animation</button>
+        </form>
+      </td>
+      <td>
+        <form method="post" action="{% url 'delete_data' data.pk%}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+        </form>
+      </td>
+      <td></td>
+      <td></td>
+      <td></td>
+
+    </tr>
+
+
+
+</tbody>
+
+
+{% endblock %}
